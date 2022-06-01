@@ -5,7 +5,7 @@ SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive.file",
     "https://www.googleapis.com/auth/drive"
-    ]
+]
 
 CREDS = Credentials.from_service_account_file('creds.json')
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
@@ -22,7 +22,20 @@ def get_sales_data():
     print("Eg: 1, 2, 3, 4, 5, 6\n")
 
     data_str = input("Please enter data here:")
-    print(f"the data you provided is {data_str}")
+
+    sales_data = data_str.split(",")
+    validate_data(sales_data)
+
+
+def validate_data(values):
+
+    try:
+        if len(values) != 6:
+            raise ValueError(
+                f"You provided {len(values)}, However it can only be 6 values"
+            )
+    except ValueError as e:
+        print(f"Error with Data {e}, please try again.\n")
 
 
 get_sales_data()
