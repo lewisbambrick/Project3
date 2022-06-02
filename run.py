@@ -1,6 +1,6 @@
 import gspread
 from google.oauth2.service_account import Credentials
-from pprint import pprint
+
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -50,24 +50,11 @@ def validate_data(values):
     return True
 
 
-def update_sales_spreadsheet(data):
-    """
-    update sales spreadsheet
-    """
-    print("updating sales spreadsheet...\n")
-    sales_spreadsheet = SHEET.worksheet("sales")
-    sales_spreadsheet.append_row(data)
-    print("Sales Spreadsheet Updated correctly\n")
-
-
-def update_surplus_spreadsheet(data):
-    """
-    update surplus spreadsheet
-    """
-    print("updating surplus spreadsheet...\n")
-    surplus_spreadsheet = SHEET.worksheet("surplus")
-    surplus_spreadsheet.append_row(data)
-    print("Surplus Spreadsheet Updated correctly\n")
+def update_spreadsheet(data, worksheet):
+    print(f"updating {worksheet} spreadsheet...\n")
+    spreadsheet_to_update = SHEET.worksheet(worksheet)
+    spreadsheet_to_update.append_row(data)
+    print(f"{worksheet} Spreadsheet updated!\n")
 
 
 def calculate_surplus_data(sales_row):
@@ -86,11 +73,11 @@ def main():
 
     data = get_sales_data()
     sales_data = [int(num) for num in data]
-    update_sales_spreadsheet(sales_data)
+    update_spreadsheet(sales_data, "sales")
     calculate_surplus_data(sales_data)
     new_surplus_data = calculate_surplus_data(sales_data)
     print(new_surplus_data)
-    update_surplus_spreadsheet(new_surplus_data)
+    update_spreadsheet(new_surplus_data, "surplus")
 
 
 main()
