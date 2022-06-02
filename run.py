@@ -60,6 +60,16 @@ def update_sales_spreadsheet(data):
     print("Sales Spreadsheet Updated correctly\n")
 
 
+def update_surplus_spreadsheet(data):
+    """
+    update surplus spreadsheet
+    """
+    print("updating surplus spreadsheet...\n")
+    surplus_spreadsheet = SHEET.worksheet("surplus")
+    surplus_spreadsheet.append_row(data)
+    print("Surplus Spreadsheet Updated correctly\n")
+
+
 def calculate_surplus_data(sales_row):
     stock = SHEET.worksheet("stock").get_all_values()
     stock_row = stock[-1]
@@ -80,6 +90,7 @@ def main():
     calculate_surplus_data(sales_data)
     new_surplus_data = calculate_surplus_data(sales_data)
     print(new_surplus_data)
+    update_surplus_spreadsheet(new_surplus_data)
 
 
 main()
